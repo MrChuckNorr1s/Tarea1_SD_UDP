@@ -23,6 +23,7 @@ Descargar la carpeta **Distribuidos** para tener todos los archivos necesarios p
 
 Antes de establecer la conexión entre los contenedores, se crea el archivo docker-compose.yml, la cual se encarga de hacer correr los múltiples contenedores de Docker para así facilitar el despliegue de los servicios del sistema, asegurando que se inicien, se conecten entre sí a través de una red común y se mantengan operativos.
 
+En la carpeta **db-init** se encuentran los dominios, pero solo son 1 millón dado a la capacidad que permite github.
 Se crean los contenedores descritos en el docker-compose.yml:
 ```diff
 sudo docker-compose up --build -d
@@ -41,6 +42,8 @@ Para correr el sistema, simplementa se utiliza el comando **python3** para inici
 python3 traficgenerator.py
 ```
 
+Para ir rotando las particiones, simplemente hay que editar la API **main.py** y **traficgenerator.py** de manera que ambos tengan la misma cantidad de servidores **redis**.
 
+Y para ir cambiando el tipo de partición (hash o por rango), cambiar los códigos de la API y el generador de tráfico por los codigos adjuntos en las carpetas **API Y GENERADOR DE TRAFICO HASH** y  **API Y GENERADOR DE TRAFICO POR RANGO**.
 
 
