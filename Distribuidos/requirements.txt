@@ -1,0 +1,11 @@
+fastapi
+uvicorn
+redis
+httpx
+pydantic
+grpcio
+dnspython
+requests
+grpcio-tools
+protobuf
+matplotlib

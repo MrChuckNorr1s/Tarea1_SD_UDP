@@ -1,0 +1,205 @@
+version: '3.8'
+
+networks:
+  redisn:
+    driver: bridge
+
+services:
+  redis1:
+    image: bitnami/redis:latest
+    restart: always
+    container_name: redis-server-1
+    environment:
+      - ALLOW_EMPTY_PASSWORD=yes
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data_1:/bitnami/redis/data
+    networks:
+      - redisn
+
+  redis2:
+    image: bitnami/redis:latest
+    restart: always
+    container_name: redis-server-2
+    environment:
+      - ALLOW_EMPTY_PASSWORD=yes
+    ports:
+      - "6380:6379"
+    volumes:
+      - redis_data_2:/bitnami/redis/data
+    networks:
+      - redisn
+
+  redis3:
+    image: bitnami/redis:latest
+    restart: always
+    container_name: redis-server-3
+    environment:
+      - ALLOW_EMPTY_PASSWORD=yes
+    ports:
+      - "6381:6379"
+    volumes:
+      - redis_data_3:/bitnami/redis/data
+    networks:
+      - redisn
+      
+  redis4:
+    image: bitnami/redis:latest
+    restart: always
+    container_name: redis-server-4
+    environment:
+      - ALLOW_EMPTY_PASSWORD=yes
+    ports:
+      - "6382:6379"
+    volumes:
+      - redis_data_4:/bitnami/redis/data
+    networks:
+      - redisn      
+
+  redis5:
+    image: bitnami/redis:latest
+    restart: always
+    container_name: redis-server-5
+    environment:
+      - ALLOW_EMPTY_PASSWORD=yes
+    ports:
+      - "6383:6379"
+    volumes:
+      - redis_data_5:/bitnami/redis/data
+    networks:
+      - redisn
+
+  redis6:
+    image: bitnami/redis:latest
+    restart: always
+    container_name: redis-server-6
+    environment:
+      - ALLOW_EMPTY_PASSWORD=yes
+    ports:
+      - "6384:6379"
+    volumes:
+      - redis_data_6:/bitnami/redis/data
+    networks:
+      - redisn
+
+  redis7:
+    image: bitnami/redis:latest
+    restart: always
+    container_name: redis-server-7
+    environment:
+      - ALLOW_EMPTY_PASSWORD=yes
+    ports:
+      - "6385:6379"
+    volumes:
+      - redis_data_7:/bitnami/redis/data
+    networks:
+      - redisn
+
+  redis8:
+    image: bitnami/redis:latest
+    restart: always
+    container_name: redis-server-8
+    environment:
+      - ALLOW_EMPTY_PASSWORD=yes
+    ports:
+      - "6386:6379"
+    volumes:
+      - redis_data_8:/bitnami/redis/data
+    networks:
+      - redisn
+
+
+
+  redisinsight:
+    image: redislabs/redisinsight:latest
+    restart: always
+    container_name: redis-insight
+    volumes:
+      - redis_insight:/data
+    ports:
+      - "5540:5540"
+    networks:
+      - redisn
+    depends_on:
+      - redis1
+      - redis2
+      - redis3
+
+  fastapi:
+    build: .
+    container_name: fastapi-app
+    ports:
+      - "8000:8000"
+    depends_on:
+      - redis1
+      - redis2
+      - redis3
+      - redis4
+      - redis5
+      - redis6
+      - redis7
+      - redis8
+      - grpc-client
+    volumes:
+      - .:/app
+    command: uvicorn main:app --host 0.0.0.0 --port 8000
+    networks:
+      - redisn
+
+  grpc-server:
+    build:
+      context: .
+      dockerfile: Dockerfile.grpc
+    container_name: grpc-server
+    ports:
+      - "50051:50051"
+    networks:
+      - redisn
+
+  grpc-client:
+    build:
+      context: .
+      dockerfile: Dockerfile2.grpc
+    container_name: grpc-client
+    ports:
+      - "8002:8002"
+    depends_on:
+      - grpc-server
+    volumes:
+      - .:/app
+    networks:
+      - redisn
+      
+  traffic-generator:
+    build:
+      context: . 
+      dockerfile: DockerfileTrafic
+    container_name: traffic-generator
+    ports:
+      - "8003:8003"
+    depends_on:
+      - fastapi
+    networks:
+      - redisn
+
+volumes:
+  redis_data_1:
+    driver: local
+  redis_data_2:
+    driver: local
+  redis_data_3:
+    driver: local
+  redis_data_4:
+    driver: local
+  redis_data_5:
+    driver: local
+  redis_data_6:
+    driver: local 
+  redis_data_7:
+    driver: local
+  redis_data_8:
+    driver: local         
+  redis_insight:
+    driver: local
+

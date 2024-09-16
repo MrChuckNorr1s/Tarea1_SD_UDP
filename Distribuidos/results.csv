@@ -1,0 +1,14 @@
+Total requests,75000
+Total time (s),9395.02022767067
+Average response time (s),0.12526693636894226
+Total HITs,24193
+Total MISSs,49781
+Partition,Total Requests,Total HITs,Total MISSs
+redis7,9257,3053,6094
+redis8,9385,3074,6185
+redis2,9459,3075,6268
+redis6,9318,2966,6197
+redis3,9380,3007,6252
+redis1,9347,2970,6241
+redis5,9185,2951,6110
+redis4,9669,3097,6434
