@@ -15,11 +15,12 @@
 - Cliente y Servidor gRPC.
 - Python-3 o superior, con sus dependencias.
 - Redis
-- PostgreSQL
 - FastAPI
 - Contenedores Docker
 
 ## Setup
+Descargar la carpeta **Distribuidos** para tener todos los archivos necesarios para levantar el sistema caché.
+
 Antes de establecer la conexión entre los contenedores, se crea el archivo docker-compose.yml, la cual se encarga de hacer correr los múltiples contenedores de Docker para así facilitar el despliegue de los servicios del sistema, asegurando que se inicien, se conecten entre sí a través de una red común y se mantengan operativos.
 
 Se crean los contenedores descritos en el docker-compose.yml:
@@ -34,24 +35,12 @@ Con esto, se puede avanzar al uso del sistema.
 
 ## Usage
 
-Para iniciar el servidor IRC se utiliza el comando:
-```diff
-# ./miniircd --listen <ip> --setuid <user>
-```
-
-Para conectar el cliente con el servidor, en la consola de IRSSI, colocar:
-```diff
-/connect <ip_server_listening>
-```
-Para correr los scripts de Python dentro del contenedor de Scapy, simplemente se utiliza: 
+Para correr el sistema, simplementa se utiliza el comando **python3** para iniciar el generador de tráfico.
 
 ```diff
-# python3 <script.py>
+python3 traficgenerator.py
 ```
 
-## Acknowledgements
 
-- El proyecto se basó en los repositorios de Miniircd: https://github.com/jrosdahl/miniircd y de IRSSI: https://github.com/irssi/irssi
-- Si bien no entregué la tarea 2, siento que le puse demasiado empeño a esta tarea para salvar el ramo, profe confío en que lo hice bien :)
 
 
